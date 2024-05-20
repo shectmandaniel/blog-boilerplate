@@ -14,6 +14,7 @@ app.get('/posts', (req, res) => {
 });
 
 app.post('/events', async (req, res) => {
+  console.log('Received Event', req.body);
   const { type, data } = req.body;
   handleEvent(type, data);
   res.send({ content: req.body });
@@ -23,7 +24,11 @@ app.listen(4002, async () => {
   console.log('Listening on 4002');
 
   // Fetch all events from event-bus
-  const res = await axios.get('http://localhost:4005/events');
+  const res = await axios
+    .get('http://event-bus-srv:4005/events')
+    .catch((err) => {
+      console.log(err);
+    });
   for (let event of res.data) {
     handleEvent(event.type, event.data);
   }
