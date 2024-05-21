@@ -6,8 +6,12 @@ export default function CommentCreate({ postId }) {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+    console.log('postId:', postId);
+    console.log('on submit content:', content);
+    await axios.post(`http://posts.com/posts/${postId}/comments`, {
       content,
+    }).catch((err) => {
+      console.error('Error at onSubmit commentCreate:', err);
     });
 
     setContent('');
